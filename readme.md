@@ -22,31 +22,16 @@ add-cors-to-couchdb http://me.iriscouch.com -u myusername -p mypassword
 
 #### What it does
 
-This script will simply add the following configuration to your CouchDB:
+This script will simply add some generic CORS configuration to your CouchDB. You could also do it yourself trivially using `curl`:
 
-```js
-[
-  {
-    path: '/_config/httpd/enable_cors',
-    value: '"true"'
-  },
-  {
-    path: '/_config/cors/origins',
-    value: '"*"'
-  },
-  {
-    path: '/_config/cors/credentials',
-    value: '"true"'
-  },
-  {
-    path: '/_config/cors/methods',
-    value: '"GET, PUT, POST, HEAD, DELETE"'
-  },
-  {
-    path: '/_config/cors/headers',
-    value: '"accept, authorization, content-type, origin, referer"'
-  }
-]
+```bash
+HOST=http://adminname:password@localhost:5984 # or whatever you got
+
+curl -X POST $HOST/_config/httpd/enable_cors -d '"true"'
+curl -X PUT $HOST/_config/cors/origins -d '"*"'
+curl -X PUT $HOST/_config/cors/credentials -d '"true"'
+curl -X PUT $HOST/_config/cors/methods -d '"GET, PUT, POST, HEAD, DELETE"'
+curl -X PUT $HOST/_config/cors/headers -d '"accept, content-type, origin, referer"'
 ```
 
 You can always change the configuration later by simply going to [http://localhost:5984/_utils/config.html](http://localhost:5984/_utils/config.html) and updating the values. However, these default options are good for getting up and running.
