@@ -49,4 +49,4 @@ This script will simply add the following configuration to your CouchDB:
 ]
 ```
 
-You can always change the configuration later by simply going to [http://localhost:5984/_config](http://localhost:5984/_config) and updating the values. However, these default options are good for getting up and running.
+You can always change the configuration later by simply going to [http://localhost:5984/_utils/config.html](http://localhost:5984/_utils/config.html) and updating the values. However, these default options are good for getting up and running.
