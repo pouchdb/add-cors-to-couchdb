@@ -20,6 +20,14 @@ or if it is a remote database:
 add-cors-to-couchdb http://me.iriscouch.com -u myusername -p mypassword
 ```
 
+##### Ubuntu - special instructions
+
+On Ubuntu the default Node.js library is called `nodejs` instead of `node` due to a naming conflict. To run on Ubuntu, you'll need to do:
+
+```
+sudo apt-get install nodejs-legacy
+```
+
 #### What it does
 
 This script will simply add some generic CORS configuration to your CouchDB. You could also do it yourself trivially using `curl`:
