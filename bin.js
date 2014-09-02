@@ -6,6 +6,9 @@ var yargs = require('yargs')
   .describe('p', 'your password')
   .alias('u', 'username')
   .describe('u', 'your username')
+  .boolean('s')
+  .alias('s', 'strict')
+  .describe('s', 'strict mode')
   .alias('h', 'help')
   .describe('h', 'this help')
   .version(require('./package.json').version, 'v')
@@ -21,10 +24,14 @@ if (argv.h) {
 
 var auth;
 if (argv.p && argv.U) {
-  auth = pargv.U + ':' + argv.p;
+  auth = argv.U + ':' + argv.p;
 }
 var url = argv[0] || 'http://127.0.0.1:5984';
-cbc(url, auth, function (err) {
+var opts = {};
+if (argv.s) {
+  opts.string = true;
+}
+cbc(url, auth, opts, function (err) {
   if (err) {
     console.log(err);
     process.exit(1);

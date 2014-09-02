@@ -4,7 +4,16 @@ var transports = {};
 transports.https = require('https');
 transports.http = require('http');
 module.exports = addCors;
-function addCors(inurl, auth, callback) {
+function addCors(inurl, auth, opts, callback) {
+  if (typeof auth !== 'string') {
+    callback = opts;
+    opts = auth;
+    auth = void 0;
+  }
+  if (typeof opts === 'function') {
+    callback = opts;
+    opts = {};
+  }
   if (typeof auth === 'function') {
     callback = auth;
     auth = void 0;
@@ -12,6 +21,7 @@ function addCors(inurl, auth, callback) {
 
   var len = todo.length;
   var errored = false;
+  
   function cb(err, resp) {
     if (errored) {
       return;
@@ -25,7 +35,9 @@ function addCors(inurl, auth, callback) {
       callback();
     }
   }
-  todo.forEach(function (item) {
+  todo.filter(function (item) {
+    return !opts.strict || (item.path !== '/_config/cors/credentials' && item.value !== '"true"');
+  }).forEach(function (item) {
     var opts = url.parse(inurl + item.path);
     if (auth) {
       opts.auth = auth;
