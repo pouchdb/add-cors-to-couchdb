@@ -67,10 +67,6 @@ var todo = [
     value: '"*"'
   },
   {
-    path: '/_config/cors/credentials',
-    value: '"true"'
-  },
-  {
     path: '/_config/cors/methods',
     value: '"GET, PUT, POST, HEAD, DELETE"'
   },
