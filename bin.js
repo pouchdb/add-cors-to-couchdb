@@ -23,7 +23,7 @@ var auth;
 if (argv.p && argv.U) {
   auth = pargv.U + ':' + argv.p;
 }
-var url = argv[0] || 'http://127.0.0.1:5984';
+var url = argv._[0] || 'http://127.0.0.1:5984';
 cbc(url, auth, function (err) {
   if (err) {
     console.log(err);
