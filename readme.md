@@ -39,7 +39,7 @@ curl -X POST $HOST/_config/httpd/enable_cors -d '"true"'
 curl -X PUT $HOST/_config/cors/origins -d '"*"'
 curl -X PUT $HOST/_config/cors/credentials -d '"true"'
 curl -X PUT $HOST/_config/cors/methods -d '"GET, PUT, POST, HEAD, DELETE"'
-curl -X PUT $HOST/_config/cors/headers -d '"accept, content-type, origin, referer"'
+curl -X PUT $HOST/_config/cors/headers -d '"accept, authorization, content-type, origin, referer"'
 ```
 
 You can always change the configuration later by simply going to [http://localhost:5984/_utils/config.html](http://localhost:5984/_utils/config.html) and updating the values. However, these default options are good for getting up and running.
