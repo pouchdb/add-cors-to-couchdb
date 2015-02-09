@@ -1,6 +1,6 @@
 {
   "name": "add-cors-to-couchdb",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "add CORS to couchdb",
   "main": "index.js",
   "repository": {
