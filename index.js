@@ -76,6 +76,11 @@ var todo = [
   },
   {
     path: '/_config/cors/headers',
-    value: '"accept, authorization, content-type, origin, referer, x-csrf-token"'
+    'if-match',
+    'if-none-match',
+    'origin',
+    'x-requested-with'
+    value: '"accept, authorization, content-type, content-length, ' + 
+      'if-match, if-none-match, origin, referer, x-csrf-token, requested-with"'
   }
 ];
