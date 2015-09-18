@@ -1,4 +1,4 @@
-add cors to couchdb
+Add CORS to CouchDB
 ====
 
 #### Summary
@@ -9,12 +9,14 @@ This script fixes that.
 
 #### Usage
 
+You need to have [Node.js and NPM](https://nodejs.org) installed.
+
 ```
 npm install -g add-cors-to-couchdb
 add-cors-to-couchdb
 ```
 
-or if it is a remote database:
+Or if it is a remote database:
 
 ```
 add-cors-to-couchdb http://me.iriscouch.com -u myusername -p mypassword
