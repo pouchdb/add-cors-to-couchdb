@@ -3,13 +3,11 @@ Add CORS to CouchDB
 
 #### Summary
 
-CouchDB doesn't come with [CORS](https://en.wikipedia.org/wiki/Cross-Origin_Resource_Sharing) enabled by default. This is a problem for libraries like [PouchDB](http://pouchdb.com), which depend on being able to access CouchDB no matter what URL it's being served from.
-
-This script fixes that.
+CouchDB doesn't come with [CORS](https://en.wikipedia.org/wiki/Cross-Origin_Resource_Sharing) enabled by default. This is a problem for libraries like [PouchDB](http://pouchdb.com), which depend on being able to access CouchDB no matter what URL it's being served from. This script fixes that.
 
 #### Usage
 
-You need to have [Node.js and NPM](https://nodejs.org) installed.
+You need to have [Node.js and NPM](https://nodejs.org) installed. Then do:
 
 ```
 npm install -g add-cors-to-couchdb
