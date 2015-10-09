@@ -13,7 +13,7 @@
     "pouchdb"
   ],
   "author": "Calvin W. Metcalf",
-  "license": "Apache",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/pouchdb/add-cors-to-couchdb/issues"
   },
