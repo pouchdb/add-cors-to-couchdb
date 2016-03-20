@@ -1,63 +1,9 @@
 'use strict';
+var fetch = require('node-fetch');
 var url = require('url');
-var transports = {};
-transports.https = require('https');
-transports.http = require('http');
-module.exports = addCors;
-function addCors(inurl, auth, callback) {
-  if (typeof auth === 'function') {
-    callback = auth;
-    auth = void 0;
-  }
+var Promise = require('lie');
 
-  var len = todo.length;
-  var errored = false;
-  function cb(err, resp) {
-    if (errored) {
-      return;
-    }
-    if (err) {
-      errored = true;
-      return callback(err);
-    }
-    len--;
-    if (!len) {
-      callback();
-    }
-  }
-  todo.forEach(function (item) {
-    var opts = url.parse(inurl + item.path);
-    if (auth) {
-      opts.auth = auth;
-    }
-    send(opts, item.value, cb);
-  });
-}
-function formatProtocol(protocol) {
-  if (protocol.slice(-1) === ':') {
-    protocol = protocol.slice(0, -1);
-  }
-  return protocol.toLowerCase();
-}
-function send(opts, data, callback) {
-  opts.method = 'PUT';
-  var req = transports[formatProtocol(opts.protocol)].request(opts, function(res) {
-    var output = '';
-    if (res.statusCode !== 200) {
-      callback(new Error('got a ' + res.statusCode + ' code'));
-      res.on('data', function () {});
-      return;
-    }
-    res.on('data', function (chunk) {
-      output += chunk.toString();
-    }).on('error', callback).on('end', function () {
-      callback(null, output);
-    });
-  });
-  req.write(data);
-  req.end();
-}
-var todo = [
+var requests = [
   {
     path: '/_config/httpd/enable_cors',
     value: '"true"'
@@ -79,3 +25,58 @@ var todo = [
     value: '"accept, authorization, content-type, origin, referer, x-csrf-token"'
   }
 ];
+
+function formatUrl(baseUrl, auth, path) {
+  var urlObject = url.parse(baseUrl + path);
+
+  if (auth) {
+    urlObject.auth = auth;
+  }
+
+  return url.format(urlObject);
+}
+
+function updateConfig(urlString, value) {
+  return fetch(urlString, {method: 'PUT', body: value}).then(function (resp) {
+    if (resp.status === 200) {
+      return;
+    }
+    return resp.text().then(function (text) {
+      throw new Error('status ' + resp.status + ' ' + text);
+    });
+  });
+}
+
+function doCouch1(baseUrl, auth) {
+  return Promise.all(requests.map(function (req) {
+    var urlString = formatUrl(baseUrl, auth, req.path);
+    return updateConfig(urlString, req.value);
+  }));
+}
+
+function doCouch2(baseUrl, auth, membershipResp) {
+  // do the Couch1 logic for all cluster_nodes
+  // see https://github.com/klaemo/docker-couchdb/issues/42#issuecomment-169610897
+  return membershipResp.json().then(function (members) {
+    return Promise.all(members.cluster_nodes.map(function (node) {
+      return Promise.all(requests.map(function (req) {
+        var path = '/_node/' + node + '/' + req.path;
+        var urlString = formatUrl(baseUrl, auth, path);
+        return updateConfig(urlString, req.value);
+      }));
+    }));
+  });
+}
+
+function addCors(baseUrl, auth) {
+  // check if we're dealing with couch 1 or couch 2
+  var urlString = formatUrl(baseUrl, auth, '/_membership');
+  return fetch(urlString).then(function (resp) {
+    if (resp.status !== 200) {
+      return doCouch1(baseUrl, auth);
+    } else {
+      return doCouch2(baseUrl, auth, resp);
+    }
+  });
+}
+module.exports = addCors;

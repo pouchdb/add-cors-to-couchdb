@@ -1,0 +1,37 @@
+language: node_js
+
+node_js:
+  - "stable"
+
+services:
+  - docker
+
+git:
+  depth: 30
+
+sudo:
+  false
+
+before_install:
+
+  # Install CouchDB Stable
+  - docker run -d -p 3000:5984 klaemo/couchdb:1.6.1
+
+  # Install CouchDB Master
+  - docker run -d -p 3001:5984 klaemo/couchdb:2.0-dev --with-haproxy --with-admin-party-please -n 1
+
+  # get the assert.sh framework
+  - wget https://raw.github.com/lehmannro/assert.sh/v1.1/assert.sh
+
+  - sleep 10
+
+before_script:
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+
+script:
+  - "./test.sh"
+
+branches:
+  only:
+  - master

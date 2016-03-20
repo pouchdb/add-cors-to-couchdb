@@ -1,4 +1,4 @@
-Add CORS to CouchDB
+Add CORS to CouchDB [![Build Status](https://travis-ci.org/pouchdb/add-cors-to-couchdb.svg?branch=master)](https://travis-ci.org/pouchdb/add-cors-to-couchdb)
 ====
 
 #### Summary
@@ -43,3 +43,22 @@ curl -X PUT $HOST/_config/cors/headers -d '"accept, authorization, content-type,
 ```
 
 You can always change the configuration later by simply going to [http://localhost:5984/_utils/config.html](http://localhost:5984/_utils/config.html) and updating the values. However, these default options are good for getting up and running.
+
+#### CouchDB 2.0+ instructions
+
+This modules automatically detects CouchDB 2.0 and should do the right thing. But in case
+you need to configure CORS on a per-node basis, do:
+
+```bash
+curl -X GET $HOST/_membership
+```
+
+to see the list of available nodes, then do e.g.:
+
+```bash
+curl -X PUT $HOST/_node/node1@127.0.0.1/_config/httpd/enable_cors -d '"true"'
+curl -X PUT $HOST/_node/node1@127.0.0.1/_config/cors/origins -d '"*"'
+curl -X PUT $HOST/_node/node1@127.0.0.1/_config/cors/credentials -d '"true"'
+curl -X PUT $HOST/_node/node1@127.0.0.1/_config/cors/methods -d '"GET, PUT, POST, HEAD, DELETE"'
+curl -X PUT $HOST/_node/node1@127.0.0.1/_config/cors/headers -d '"accept, authorization, content-type, origin, referer, x-csrf-token"'
+```
