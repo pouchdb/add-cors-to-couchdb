@@ -25,12 +25,15 @@ before_install:
 
   - sleep 10
 
-before_script:
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
-
 script:
   - "./test.sh"
+
+matrix:
+  include:
+    - node_js: "0.10"
+      services: docker
+    - node_js: "4"
+      services: docker
 
 branches:
   only:

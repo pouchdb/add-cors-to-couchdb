@@ -1,7 +1,7 @@
 'use strict';
+require('lie/polyfill');
 var fetch = require('node-fetch');
 var url = require('url');
-var Promise = require('lie');
 
 var requests = [
   {
