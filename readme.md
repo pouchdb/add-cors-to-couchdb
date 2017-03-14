@@ -1,6 +1,8 @@
 Add CORS to CouchDB [![Build Status](https://travis-ci.org/pouchdb/add-cors-to-couchdb.svg?branch=master)](https://travis-ci.org/pouchdb/add-cors-to-couchdb)
 ====
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/pouchdb/add-cors-to-couchdb.svg)](https://greenkeeper.io/)
+
 #### Summary
 
 CouchDB doesn't come with [CORS](https://en.wikipedia.org/wiki/Cross-Origin_Resource_Sharing) enabled by default. This is a problem for libraries like [PouchDB](http://pouchdb.com), which depend on being able to access CouchDB no matter what URL it's being served from. This script fixes that.
