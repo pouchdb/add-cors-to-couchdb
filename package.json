@@ -20,7 +20,7 @@
   "homepage": "https://github.com/pouchdb/add-cors-to-couchdb",
   "dependencies": {
     "lie": "^3.0.2",
-    "node-fetch": "^1.4.0",
+    "node-fetch": "^2.1.2",
     "yargs": "^7.0.1"
   },
   "bin": "./bin.js",
