@@ -21,7 +21,7 @@
   "dependencies": {
     "lie": "^3.0.2",
     "node-fetch": "^1.4.0",
-    "yargs": "^7.0.1"
+    "yargs": "^15.3.0"
   },
   "bin": "./bin.js",
   "files": [
